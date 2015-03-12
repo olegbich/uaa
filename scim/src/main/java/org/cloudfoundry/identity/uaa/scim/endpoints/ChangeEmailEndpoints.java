@@ -8,7 +8,6 @@ import org.cloudfoundry.identity.uaa.error.UaaException;
 import org.cloudfoundry.identity.uaa.rest.QueryableResourceManager;
 import org.cloudfoundry.identity.uaa.scim.ScimUser;
 import org.cloudfoundry.identity.uaa.scim.ScimUserProvisioning;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 import org.springframework.context.ApplicationEventPublisher;
@@ -113,13 +112,16 @@ public class ChangeEmailEndpoints implements ApplicationEventPublisherAware {
     }
 
     public static class EmailChange {
-        @JsonProperty("userId")
+        @org.codehaus.jackson.annotate.JsonProperty("userId")
+        @com.fasterxml.jackson.annotation.JsonProperty("userId")
         private String userId;
 
-        @JsonProperty("email")
+        @org.codehaus.jackson.annotate.JsonProperty("email")
+        @com.fasterxml.jackson.annotation.JsonProperty("email")
         private String email;
 
-        @JsonProperty("client_id")
+        @org.codehaus.jackson.annotate.JsonProperty("client_id")
+        @com.fasterxml.jackson.annotation.JsonProperty("client_id")
         private String clientId;
 
         public String getUserId() {
@@ -148,17 +150,21 @@ public class ChangeEmailEndpoints implements ApplicationEventPublisherAware {
     }
 
     public static class EmailChangeResponse {
-        @JsonProperty("username")
+        @org.codehaus.jackson.annotate.JsonProperty("username")
+        @com.fasterxml.jackson.annotation.JsonProperty("username")
         private String username;
 
 
-        @JsonProperty("userId")
+        @org.codehaus.jackson.annotate.JsonProperty("userId")
+        @com.fasterxml.jackson.annotation.JsonProperty("userId")
         private String userId;
 
-        @JsonProperty("redirect_url")
+        @org.codehaus.jackson.annotate.JsonProperty("redirect_url")
+        @com.fasterxml.jackson.annotation.JsonProperty("redirect_url")
         private String redirectUrl;
 
-        @JsonProperty("email")
+        @org.codehaus.jackson.annotate.JsonProperty("email")
+        @com.fasterxml.jackson.annotation.JsonProperty("email")
         private String email;
 
         public String getUsername() {

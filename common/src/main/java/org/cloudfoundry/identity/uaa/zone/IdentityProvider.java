@@ -14,12 +14,7 @@ package org.cloudfoundry.identity.uaa.zone;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.UUID;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 public class IdentityProvider {
     /**
@@ -45,7 +40,8 @@ public class IdentityProvider {
 
     private Date created = new Date();
 
-    @JsonProperty("last_modified")
+    @org.codehaus.jackson.annotate.JsonProperty("last_modified")
+    @com.fasterxml.jackson.annotation.JsonProperty("last_modified")
     private Date lastModified = new Date();
 
     private boolean active = true;

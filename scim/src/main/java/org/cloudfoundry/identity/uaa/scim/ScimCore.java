@@ -12,14 +12,13 @@
  *******************************************************************************/
 package org.cloudfoundry.identity.uaa.scim;
 
-import java.util.Arrays;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.util.Assert;
+
+import java.util.Arrays;
 
 public abstract class ScimCore {
 
-    public static final String[] SCHEMAS = new String[] { "urn:scim:schemas:core:1.0" };
+    public static final String[] SCHEMAS = new String[]{"urn:scim:schemas:core:1.0"};
 
     private String id;
 
@@ -62,12 +61,14 @@ public abstract class ScimCore {
         this.meta = meta;
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public void setVersion(int version) {
         meta.setVersion(version);
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public int getVersion() {
         return meta.getVersion();
     }

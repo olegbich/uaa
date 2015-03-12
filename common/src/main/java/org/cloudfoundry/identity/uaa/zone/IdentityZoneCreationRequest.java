@@ -16,18 +16,19 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 
-@JsonDeserialize
+@org.codehaus.jackson.map.annotate.JsonDeserialize
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize
 public class IdentityZoneCreationRequest {
 
     @Valid
-    @JsonProperty("identity_zone")
+    @org.codehaus.jackson.annotate.JsonProperty("identity_zone")
+    @com.fasterxml.jackson.annotation.JsonProperty("identity_zone")
     private IdentityZone identityZone;
 
-    @JsonProperty("client_details")
+    @org.codehaus.jackson.annotate.JsonProperty("client_details")
+    @com.fasterxml.jackson.annotation.JsonProperty("client_details")
     private List<BaseClientDetails> clientDetails;
 
     public IdentityZone getIdentityZone() {

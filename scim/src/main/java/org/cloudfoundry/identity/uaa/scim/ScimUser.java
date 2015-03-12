@@ -19,10 +19,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.cloudfoundry.identity.uaa.oauth.approval.Approval;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -35,11 +31,14 @@ import org.springframework.util.StringUtils;
  * 
  * @author Luke Taylor
  */
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
-@JsonDeserialize(using = ScimUserJsonDeserializer.class)
+@org.codehaus.jackson.map.annotate.JsonSerialize(include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL)
+@org.codehaus.jackson.map.annotate.JsonDeserialize(using = ScimUserJsonDeserializer.class)
+@com.fasterxml.jackson.databind.annotation.JsonSerialize(include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL)
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Jackson2ScimUserJsonDeserializer.class)
 public final class ScimUser extends ScimCore {
 
-    @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+    @org.codehaus.jackson.map.annotate.JsonSerialize(include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL)
+    @com.fasterxml.jackson.databind.annotation.JsonSerialize(include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL)
     public static final class Group {
         String value;
 
@@ -129,7 +128,8 @@ public final class ScimUser extends ScimCore {
         }
     }
 
-    @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+    @org.codehaus.jackson.map.annotate.JsonSerialize(include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL)
+    @com.fasterxml.jackson.databind.annotation.JsonSerialize(include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL)
     public static final class Name {
         String formatted;
 
@@ -202,7 +202,8 @@ public final class ScimUser extends ScimCore {
 
     }
 
-    @JsonSerialize(include = JsonSerialize.Inclusion.NON_DEFAULT)
+    @org.codehaus.jackson.map.annotate.JsonSerialize(include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_DEFAULT)
+    @com.fasterxml.jackson.databind.annotation.JsonSerialize(include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_DEFAULT)
     public static final class Email {
         private String value;
 
@@ -258,7 +259,8 @@ public final class ScimUser extends ScimCore {
         }
     }
 
-    @JsonSerialize(include = JsonSerialize.Inclusion.NON_DEFAULT)
+    @org.codehaus.jackson.map.annotate.JsonSerialize(include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_DEFAULT)
+    @com.fasterxml.jackson.databind.annotation.JsonSerialize(include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_DEFAULT)
     public static final class PhoneNumber {
         private String value;
 
@@ -321,7 +323,8 @@ public final class ScimUser extends ScimCore {
 
     private String zoneId = null;
 
-    @JsonProperty
+    @org.codehaus.jackson.annotate.JsonProperty
+    @com.fasterxml.jackson.annotation.JsonProperty
     private String password;
 
     public ScimUser() {
@@ -504,7 +507,8 @@ public final class ScimUser extends ScimCore {
         this.zoneId = zoneId;
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public String getPrimaryEmail() {
         if (getEmails() == null || getEmails().isEmpty()) {
             return null;
@@ -551,12 +555,14 @@ public final class ScimUser extends ScimCore {
         emails.add(0, newPrimaryEmail);
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public String getGivenName() {
         return name == null ? null : name.getGivenName();
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public String getFamilyName() {
         return name == null ? null : name.getFamilyName();
     }

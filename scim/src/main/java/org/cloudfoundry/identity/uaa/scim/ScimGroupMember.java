@@ -16,14 +16,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.cloudfoundry.identity.uaa.authentication.Origin;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@org.codehaus.jackson.map.annotate.JsonSerialize(include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL)
+@com.fasterxml.jackson.databind.annotation.JsonSerialize(include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL)
 public class ScimGroupMember {
 
-    @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+    @org.codehaus.jackson.map.annotate.JsonSerialize(include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL)
+    @com.fasterxml.jackson.databind.annotation.JsonSerialize(include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL)
     public static enum Role {
         MEMBER, READER, WRITER;
     }
@@ -31,19 +30,22 @@ public class ScimGroupMember {
     public static final List<Role> GROUP_MEMBER = Arrays.asList(Role.MEMBER);
     public static final List<Role> GROUP_ADMIN = Arrays.asList(Role.READER, Role.WRITER);
 
-    @JsonProperty("value")
+    @org.codehaus.jackson.annotate.JsonProperty("value")
+    @com.fasterxml.jackson.annotation.JsonProperty("value")
     private String memberId;
 
     private String origin = Origin.UAA;
 
-    @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+    @org.codehaus.jackson.map.annotate.JsonSerialize(include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL)
+    @com.fasterxml.jackson.databind.annotation.JsonSerialize(include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL)
     public enum Type {
         USER, GROUP
     }
 
     private Type type;
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Role> roles;
 
     public List<Role> getRoles() {

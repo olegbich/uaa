@@ -12,8 +12,6 @@
  *******************************************************************************/
 package org.cloudfoundry.identity.uaa.login;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 
 @SuppressWarnings("serial")
@@ -21,8 +19,10 @@ public class SamlUserAuthority implements GrantedAuthority {
 
     private final String authority;
 
-    @JsonCreator
-    public SamlUserAuthority(@JsonProperty("authority") String authority) {
+    @org.codehaus.jackson.annotate.JsonCreator
+    @com.fasterxml.jackson.annotation.JsonCreator
+    public SamlUserAuthority(@org.codehaus.jackson.annotate.JsonProperty("authority")
+                                 @com.fasterxml.jackson.annotation.JsonProperty("authority") String authority) {
         this.authority = authority;
     }
 

@@ -18,10 +18,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 //TODO - make object serialize/deserialize properly with JSON
 public class PasscodeInformation {
 
@@ -45,13 +41,14 @@ public class PasscodeInformation {
         setOrigin(origin);
     }
 
-    @JsonCreator
+    @org.codehaus.jackson.annotate.JsonCreator
+    @com.fasterxml.jackson.annotation.JsonCreator
     public PasscodeInformation(
-        @JsonProperty("userId") String userId,
-        @JsonProperty("username") String username,
-        @JsonProperty("passcode") String passcode,
-        @JsonProperty("origin") String origin,
-        @JsonProperty("samlAuthorities") ArrayList<SamlUserAuthority> authorities) {
+        @org.codehaus.jackson.annotate.JsonProperty("userId") @com.fasterxml.jackson.annotation.JsonProperty("userId") String userId,
+        @org.codehaus.jackson.annotate.JsonProperty("username") @com.fasterxml.jackson.annotation.JsonProperty("username") String username,
+        @org.codehaus.jackson.annotate.JsonProperty("passcode") @com.fasterxml.jackson.annotation.JsonProperty("passcode") String passcode,
+        @org.codehaus.jackson.annotate.JsonProperty("origin") @com.fasterxml.jackson.annotation.JsonProperty("origin") String origin,
+        @org.codehaus.jackson.annotate.JsonProperty("samlAuthorities") @com.fasterxml.jackson.annotation.JsonProperty("samlAuthorities") ArrayList<SamlUserAuthority> authorities) {
 
         setUserId(userId);
         setUsername(username);
@@ -73,7 +70,8 @@ public class PasscodeInformation {
         this.username = username;
     }
 
-    @JsonProperty("samlAuthorities")
+    @org.codehaus.jackson.annotate.JsonProperty("samlAuthorities")
+    @com.fasterxml.jackson.annotation.JsonProperty("samlAuthorities")
     public ArrayList<SamlUserAuthority> getSamlAuthorities() {
         ArrayList<SamlUserAuthority> list = new ArrayList<SamlUserAuthority>();
         if (authorizationParameters != null && authorizationParameters.containsKey("authorities")) {
@@ -89,7 +87,8 @@ public class PasscodeInformation {
         authorizationParameters.put("authorities", set);
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public Map<String, Object> getAuthorizationParameters() {
         return authorizationParameters;
     }

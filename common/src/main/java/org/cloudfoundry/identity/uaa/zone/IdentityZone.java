@@ -13,17 +13,16 @@
 package org.cloudfoundry.identity.uaa.zone;
 
 import org.cloudfoundry.identity.uaa.authentication.Origin;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import javax.validation.constraints.NotNull;
 
 import java.util.Calendar;
 import java.util.Date;
 
-@JsonSerialize
-@JsonDeserialize
+@org.codehaus.jackson.map.annotate.JsonSerialize
+@com.fasterxml.jackson.databind.annotation.JsonSerialize
+@org.codehaus.jackson.map.annotate.JsonDeserialize
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize
 public class IdentityZone {
     public static final IdentityZone getUaa() {
         Calendar calendar = Calendar.getInstance();
@@ -55,7 +54,8 @@ public class IdentityZone {
 
     private Date created = new Date();
 
-    @JsonProperty("last_modified")
+    @org.codehaus.jackson.annotate.JsonProperty("last_modified")
+    @com.fasterxml.jackson.annotation.JsonProperty("last_modified")
     private Date lastModified = new Date();
 
     public Date getCreated() {

@@ -14,18 +14,19 @@ package org.cloudfoundry.identity.uaa.login;
 
 
 import org.cloudfoundry.identity.uaa.oauth.approval.Approval;
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 public class DescribedApproval extends Approval {
     private String description;
 
     public DescribedApproval() {
     }
+
     public DescribedApproval(Approval approval) {
         super(approval);
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public String getDescription() {
         return description;
     }

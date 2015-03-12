@@ -12,13 +12,12 @@
  *******************************************************************************/
 package org.cloudfoundry.identity.uaa.message;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
 /**
  * @author Dave Syer
  * @author Luke Taylor
  */
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@org.codehaus.jackson.map.annotate.JsonSerialize(include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL)
+@com.fasterxml.jackson.databind.annotation.JsonSerialize(include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL)
 public class PasswordChangeRequest {
 
     private String oldPassword;

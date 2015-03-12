@@ -17,9 +17,6 @@ package org.cloudfoundry.identity.uaa.audit.event;
 
 import org.cloudfoundry.identity.uaa.audit.AuditEvent;
 import org.cloudfoundry.identity.uaa.audit.AuditEventType;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -94,25 +91,31 @@ public class GroupModifiedEvent extends AbstractUaaEvent {
     }
 
     public static class GroupInfo {
-        @JsonIgnore
+        @org.codehaus.jackson.annotate.JsonIgnore
+        @com.fasterxml.jackson.annotation.JsonIgnore
         private String group;
-        @JsonIgnore
+        @org.codehaus.jackson.annotate.JsonIgnore
+        @com.fasterxml.jackson.annotation.JsonIgnore
         private String[] members;
 
-        @JsonCreator
-        public GroupInfo(@JsonProperty("group_name") String g, @JsonProperty("members") String[] m) {
+        @org.codehaus.jackson.annotate.JsonCreator
+        @com.fasterxml.jackson.annotation.JsonCreator
+        public GroupInfo(@org.codehaus.jackson.annotate.JsonProperty("group_name") @com.fasterxml.jackson.annotation.JsonProperty("group_name") String g,
+                         @org.codehaus.jackson.annotate.JsonProperty("members") @com.fasterxml.jackson.annotation.JsonProperty("members") String[] m) {
             this.group = g;
             this.members = m;
             //sort for equals() to work
             Arrays.sort(members);
         }
 
-        @JsonProperty("group_name")
+        @org.codehaus.jackson.annotate.JsonProperty("group_name")
+        @com.fasterxml.jackson.annotation.JsonProperty("group_name")
         public String getGroup() {
             return group;
         }
 
-        @JsonProperty("members")
+        @org.codehaus.jackson.annotate.JsonProperty("members")
+        @com.fasterxml.jackson.annotation.JsonProperty("members")
         public String[] getMembers() {
             return members;
         }

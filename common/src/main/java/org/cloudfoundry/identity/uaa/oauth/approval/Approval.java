@@ -12,16 +12,16 @@
  *******************************************************************************/
 package org.cloudfoundry.identity.uaa.oauth.approval;
 
+import org.cloudfoundry.identity.uaa.util.json.Jackson2JsonDateDeserializer;
+import org.cloudfoundry.identity.uaa.util.json.Jackson2JsonDateSerializer;
+import org.cloudfoundry.identity.uaa.util.json.JsonDateDeserializer;
+import org.cloudfoundry.identity.uaa.util.json.JsonDateSerializer;
+
 import java.util.Calendar;
 import java.util.Date;
 
-import org.cloudfoundry.identity.uaa.util.json.JsonDateDeserializer;
-import org.cloudfoundry.identity.uaa.util.json.JsonDateSerializer;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@org.codehaus.jackson.map.annotate.JsonSerialize(include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL)
+@com.fasterxml.jackson.databind.annotation.JsonSerialize(include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL)
 public class Approval {
 
     private String userId;
@@ -69,12 +69,16 @@ public class Approval {
         this.scope = scope == null ? "" : scope;
     }
 
-    @JsonSerialize(using = JsonDateSerializer.class, include = JsonSerialize.Inclusion.NON_NULL)
+    @org.codehaus.jackson.map.annotate.JsonSerialize(using = JsonDateSerializer.class,
+            include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL)
+    @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = Jackson2JsonDateSerializer.class,
+            include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL)
     public Date getExpiresAt() {
         return expiresAt;
     }
 
-    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @org.codehaus.jackson.map.annotate.JsonDeserialize(using = JsonDateDeserializer.class)
+    @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Jackson2JsonDateDeserializer.class)
     public void setExpiresAt(Date expiresAt) {
         if (expiresAt == null) {
             Calendar thirtyMinFromNow = Calendar.getInstance();
@@ -84,17 +88,22 @@ public class Approval {
         this.expiresAt = expiresAt;
     }
 
-    @JsonSerialize(using = JsonDateSerializer.class, include = JsonSerialize.Inclusion.NON_NULL)
+    @org.codehaus.jackson.map.annotate.JsonSerialize(using = JsonDateSerializer.class,
+            include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL)
+    @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = Jackson2JsonDateSerializer.class,
+            include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL)
     public Date getLastUpdatedAt() {
         return lastUpdatedAt;
     }
 
-    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @org.codehaus.jackson.map.annotate.JsonDeserialize(using = JsonDateDeserializer.class)
+    @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Jackson2JsonDateDeserializer.class)
     public void setLastUpdatedAt(Date lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public boolean isCurrentlyActive() {
         return expiresAt != null && expiresAt.after(new Date());
     }

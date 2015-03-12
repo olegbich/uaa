@@ -14,12 +14,11 @@ package org.cloudfoundry.identity.uaa.codestore;
 
 import java.sql.Timestamp;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-@JsonSerialize
-@JsonDeserialize
+@org.codehaus.jackson.map.annotate.JsonSerialize
+@org.codehaus.jackson.map.annotate.JsonDeserialize
+@com.fasterxml.jackson.databind.annotation.JsonSerialize
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize
 public class ExpiringCode {
 
     private String code;
@@ -61,7 +60,8 @@ public class ExpiringCode {
         this.data = data;
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public boolean isExpired() {
         if (expiresAt == null)
             return false;

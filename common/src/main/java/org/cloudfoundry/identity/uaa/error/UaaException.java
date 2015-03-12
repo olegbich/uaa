@@ -16,16 +16,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  * Base exception for UAA exceptions.
- * 
+ *
  * @author Dave Syer
  */
-@JsonSerialize(using = UaaExceptionSerializer.class)
-@JsonDeserialize(using = UaaExceptionDeserializer.class)
+@org.codehaus.jackson.map.annotate.JsonSerialize(using = UaaExceptionSerializer.class)
+@org.codehaus.jackson.map.annotate.JsonDeserialize(using = UaaExceptionDeserializer.class)
+@com.fasterxml.jackson.databind.annotation.JsonSerialize(using = Jackson2UaaExceptionSerializer.class)
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Jackson2UaaExceptionDeserializer.class)
 public class UaaException extends RuntimeException {
 
     private static final String DEFAULT_ERROR = "unknown_error";
@@ -71,7 +71,7 @@ public class UaaException extends RuntimeException {
     }
     /**
      * The error code.
-     * 
+     *
      * @return The error code.
      */
     public String getErrorCode() {
@@ -80,7 +80,7 @@ public class UaaException extends RuntimeException {
 
     /**
      * The HTTP status associated with this error.
-     * 
+     *
      * @return The HTTP status associated with this error.
      */
     public int getHttpStatus() {
@@ -89,7 +89,7 @@ public class UaaException extends RuntimeException {
 
     /**
      * Get any additional information associated with this error.
-     * 
+     *
      * @return Additional information, or null if none.
      */
     public Map<String, String> getAdditionalInformation() {
@@ -98,7 +98,7 @@ public class UaaException extends RuntimeException {
 
     /**
      * Add some additional information with this OAuth error.
-     * 
+     *
      * @param key The key.
      * @param value The value.
      */
@@ -113,7 +113,7 @@ public class UaaException extends RuntimeException {
 
     /**
      * Creates an {@link UaaException} from a Map<String,String>.
-     * 
+     *
      * @param errorParams
      * @return
      */

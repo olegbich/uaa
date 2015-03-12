@@ -15,7 +15,6 @@
 
 package org.cloudfoundry.identity.uaa.authentication.manager;
 
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -76,12 +75,14 @@ public class KeystoneAuthenticationManager extends RestAuthenticationManager {
             this.auth = auth;
         }
 
-        @JsonProperty("auth")
+        @org.codehaus.jackson.annotate.JsonProperty("auth")
+        @com.fasterxml.jackson.annotation.JsonProperty("auth")
         public KeystoneAuthentication getAuth() {
             return auth;
         }
 
-        @JsonProperty("auth")
+        @org.codehaus.jackson.annotate.JsonProperty("auth")
+        @com.fasterxml.jackson.annotation.JsonProperty("auth")
         public void setAuth(KeystoneAuthentication auth) {
             this.auth = auth;
         }
@@ -96,17 +97,20 @@ public class KeystoneAuthenticationManager extends RestAuthenticationManager {
                 this.credentials = new KeystoneCredentials(username, password);
             }
 
-            @JsonProperty("tenantName")
+            @org.codehaus.jackson.annotate.JsonProperty("tenantName")
+            @com.fasterxml.jackson.annotation.JsonProperty("tenantName")
             public String getTenant() {
                 return tenant;
             }
 
-            @JsonProperty("tenantName")
+            @org.codehaus.jackson.annotate.JsonProperty("tenantName")
+            @com.fasterxml.jackson.annotation.JsonProperty("tenantName")
             public void setTenant(String tenant) {
                 this.tenant = tenant;
             }
 
-            @JsonProperty("passwordCredentials")
+            @org.codehaus.jackson.annotate.JsonProperty("passwordCredentials")
+            @com.fasterxml.jackson.annotation.JsonProperty("passwordCredentials")
             public KeystoneCredentials getCredentials() {
                 return credentials;
             }
@@ -153,7 +157,8 @@ public class KeystoneAuthenticationManager extends RestAuthenticationManager {
             identity = new KeystoneIdentity(new KeystoneAuthentication(domain, username, password));
         }
 
-        @JsonProperty("auth")
+        @org.codehaus.jackson.annotate.JsonProperty("auth")
+        @com.fasterxml.jackson.annotation.JsonProperty("auth")
         public KeystoneIdentity getIdentity() {
             return identity;
         }
@@ -164,12 +169,14 @@ public class KeystoneAuthenticationManager extends RestAuthenticationManager {
             }
 
             private KeystoneAuthentication auth;
-            @JsonProperty("identity")
+            @org.codehaus.jackson.annotate.JsonProperty("identity")
+            @com.fasterxml.jackson.annotation.JsonProperty("identity")
             public KeystoneAuthentication getAuth() {
                 return auth;
             }
 
-            @JsonProperty("identity")
+            @org.codehaus.jackson.annotate.JsonProperty("identity")
+            @com.fasterxml.jackson.annotation.JsonProperty("identity")
             public void setAuth(KeystoneAuthentication auth) {
                 this.auth = auth;
             }
@@ -186,22 +193,26 @@ public class KeystoneAuthenticationManager extends RestAuthenticationManager {
                 this.credentials = new KeystoneCredentials(username, password);
             }
 
-            @JsonProperty("methods")
+            @org.codehaus.jackson.annotate.JsonProperty("methods")
+            @com.fasterxml.jackson.annotation.JsonProperty("methods")
             public String[] getMethods() {
                 return methods;
             }
 
-            @JsonProperty("methods")
+            @org.codehaus.jackson.annotate.JsonProperty("methods")
+            @com.fasterxml.jackson.annotation.JsonProperty("methods")
             public void setMethods(String[] methods) {
                 this.methods = methods;
             }
 
-            @JsonProperty("password")
+            @org.codehaus.jackson.annotate.JsonProperty("password")
+            @com.fasterxml.jackson.annotation.JsonProperty("password")
             public KeystoneCredentials getCredentials() {
                 return credentials;
             }
 
-            @JsonProperty("password")
+            @org.codehaus.jackson.annotate.JsonProperty("password")
+            @com.fasterxml.jackson.annotation.JsonProperty("password")
             public void setCredentials(KeystoneCredentials credentials) {
                 this.credentials = credentials;
             }

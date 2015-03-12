@@ -15,10 +15,6 @@ package org.cloudfoundry.identity.uaa.client;
 import java.util.Collection;
 
 import org.cloudfoundry.identity.uaa.user.UaaAuthority;
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -85,10 +81,16 @@ public class SocialClientUserDetails extends AbstractAuthenticationToken {
 
     private String source;
 
-    @JsonCreator
+    @org.codehaus.jackson.annotate.JsonCreator
+    @com.fasterxml.jackson.annotation.JsonCreator
     public SocialClientUserDetails(
-                    @JsonProperty("username") String username,
-                    @JsonProperty("authorities") @JsonDeserialize(contentAs = UaaAuthority.class) Collection<? extends GrantedAuthority> authorities) {
+                    @org.codehaus.jackson.annotate.JsonProperty("username")
+                    @com.fasterxml.jackson.annotation.JsonProperty("username") String username,
+                    @org.codehaus.jackson.annotate.JsonProperty("authorities")
+                    @com.fasterxml.jackson.annotation.JsonProperty("authorities")
+                    @org.codehaus.jackson.map.annotate.JsonDeserialize(contentAs = UaaAuthority.class)
+                    @com.fasterxml.jackson.databind.annotation.JsonDeserialize(contentAs = UaaAuthority.class)
+                    Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         setAuthenticated(authorities != null && !authorities.isEmpty());
         this.username = username;
@@ -111,7 +113,8 @@ public class SocialClientUserDetails extends AbstractAuthenticationToken {
     }
 
     @Override
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public String getName() {
         // This is used as the principal name (which could then be used to look
         // up tokens etc)
@@ -138,13 +141,15 @@ public class SocialClientUserDetails extends AbstractAuthenticationToken {
         return username;
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @Override
     public Object getCredentials() {
         return "N/A";
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @Override
     public Object getPrincipal() {
         return this.username;

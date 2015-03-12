@@ -14,12 +14,13 @@ package org.cloudfoundry.identity.uaa.scim;
 
 import java.util.Date;
 
+import org.cloudfoundry.identity.uaa.util.json.Jackson2JsonDateDeserializer;
+import org.cloudfoundry.identity.uaa.util.json.Jackson2JsonDateSerializer;
 import org.cloudfoundry.identity.uaa.util.json.JsonDateDeserializer;
 import org.cloudfoundry.identity.uaa.util.json.JsonDateSerializer;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@org.codehaus.jackson.map.annotate.JsonSerialize(include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL)
+@com.fasterxml.jackson.databind.annotation.JsonSerialize(include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL)
 public class ScimMeta {
     private int version = 0;
 
@@ -36,22 +37,26 @@ public class ScimMeta {
         this.version = version;
     }
 
-    @JsonSerialize(using = JsonDateSerializer.class, include = JsonSerialize.Inclusion.NON_NULL)
+    @org.codehaus.jackson.map.annotate.JsonSerialize(using = JsonDateSerializer.class, include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL)
+    @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = Jackson2JsonDateSerializer.class, include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL)
     public Date getCreated() {
         return created;
     }
 
-    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @org.codehaus.jackson.map.annotate.JsonDeserialize(using = JsonDateDeserializer.class)
+    @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Jackson2JsonDateDeserializer.class)
     public void setCreated(Date created) {
         this.created = created;
     }
 
-    @JsonSerialize(using = JsonDateSerializer.class, include = JsonSerialize.Inclusion.NON_NULL)
+    @org.codehaus.jackson.map.annotate.JsonSerialize(using = JsonDateSerializer.class, include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_NULL)
+    @com.fasterxml.jackson.databind.annotation.JsonSerialize(using = Jackson2JsonDateSerializer.class, include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_NULL)
     public Date getLastModified() {
         return lastModified;
     }
 
-    @JsonDeserialize(using = JsonDateDeserializer.class)
+    @org.codehaus.jackson.map.annotate.JsonDeserialize(using = JsonDateDeserializer.class)
+    @com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = Jackson2JsonDateDeserializer.class)
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
     }

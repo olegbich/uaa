@@ -13,13 +13,10 @@
 package org.cloudfoundry.identity.uaa.test;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.apache.commons.codec.binary.Base64;
 import org.cloudfoundry.identity.uaa.util.SetServerNameRequestPostProcessor;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -73,9 +70,11 @@ public class TestClient {
         return oauthToken.accessToken;
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
+    @org.codehaus.jackson.annotate.JsonIgnoreProperties(ignoreUnknown = true)
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
     public static class OAuthToken {
-        @JsonProperty("access_token")
+        @org.codehaus.jackson.annotate.JsonProperty("access_token")
+        @com.fasterxml.jackson.annotation.JsonProperty("access_token")
         public String accessToken;
 
         public OAuthToken() {

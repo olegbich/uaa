@@ -1,14 +1,12 @@
 package org.cloudfoundry.identity.uaa.oauth.client;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetails;
 
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_DEFAULT)
-@JsonIgnoreProperties(ignoreUnknown = true)
+@org.codehaus.jackson.map.annotate.JsonSerialize(include = org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion.NON_DEFAULT)
+@org.codehaus.jackson.annotate.JsonIgnoreProperties(ignoreUnknown = true)
+@com.fasterxml.jackson.databind.annotation.JsonSerialize(include = com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion.NON_DEFAULT)
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientDetailsModification extends BaseClientDetails {
 
     public static final String ADD = "add";
@@ -18,9 +16,11 @@ public class ClientDetailsModification extends BaseClientDetails {
     public static final String SECRET = "secret";
     public static final String NONE = "none";
 
-    @JsonProperty("action")
+    @org.codehaus.jackson.annotate.JsonProperty("action")
+    @com.fasterxml.jackson.annotation.JsonProperty("action")
     private String action = NONE;
-    @JsonProperty("approvals_deleted")
+    @org.codehaus.jackson.annotate.JsonProperty("approvals_deleted")
+    @com.fasterxml.jackson.annotation.JsonProperty("approvals_deleted")
     private boolean approvalsDeleted = false;
 
     public ClientDetailsModification() {
@@ -49,12 +49,14 @@ public class ClientDetailsModification extends BaseClientDetails {
         }
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public String getAction() {
         return action;
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public void setAction(String action) {
         if (valid(action)) {
             this.action = action;
@@ -63,17 +65,20 @@ public class ClientDetailsModification extends BaseClientDetails {
         }
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public boolean isApprovalsDeleted() {
         return approvalsDeleted;
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public void setApprovalsDeleted(boolean approvalsDeleted) {
         this.approvalsDeleted = approvalsDeleted;
     }
 
-    @JsonIgnore
+    @org.codehaus.jackson.annotate.JsonIgnore
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private boolean valid(String action) {
         return (ADD.equals(action)
             ||  UPDATE.equals(action)

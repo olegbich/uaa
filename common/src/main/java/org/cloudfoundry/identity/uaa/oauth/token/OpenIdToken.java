@@ -18,14 +18,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.map.deser.StdDeserializer;
-import org.codehaus.jackson.map.ser.SerializerBase;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.DefaultOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -35,6 +27,8 @@ import org.springframework.util.Assert;
 
 @org.codehaus.jackson.map.annotate.JsonSerialize(using = OpenIdToken.OpenIdTokenJackson1Serializer.class)
 @org.codehaus.jackson.map.annotate.JsonDeserialize(using = OpenIdToken.OpenIdTokenJackson1Deserializer.class)
+@com.fasterxml.jackson.databind.annotation.JsonSerialize(using = OpenIdToken.OpenIdTokenJackson2Serializer.class)
+@com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = OpenIdToken.OpenIdTokenJackson2Deserializer.class)
 public class OpenIdToken extends DefaultOAuth2AccessToken {
 
     public static String ID_TOKEN = "id_token";
@@ -57,14 +51,14 @@ public class OpenIdToken extends DefaultOAuth2AccessToken {
         super(accessToken);
     }
 
-    public static final class OpenIdTokenJackson1Serializer extends SerializerBase<OAuth2AccessToken> {
+    public static final class OpenIdTokenJackson1Serializer extends  org.codehaus.jackson.map.ser.SerializerBase<OAuth2AccessToken> {
 
         public OpenIdTokenJackson1Serializer() {
             super(OAuth2AccessToken.class);
         }
 
         @Override
-        public void serialize(OAuth2AccessToken token, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+        public void serialize(OAuth2AccessToken token, org.codehaus.jackson.JsonGenerator jgen, org.codehaus.jackson.map.SerializerProvider provider) throws IOException {
 
             jgen.writeStartObject();
             jgen.writeStringField(OAuth2AccessToken.ACCESS_TOKEN, token.getValue());
@@ -99,14 +93,14 @@ public class OpenIdToken extends DefaultOAuth2AccessToken {
         }
     }
 
-    public final class OpenIdTokenJackson1Deserializer extends StdDeserializer<OAuth2AccessToken> {
+    public final class OpenIdTokenJackson1Deserializer extends org.codehaus.jackson.map.deser.StdDeserializer<OAuth2AccessToken> {
 
         public OpenIdTokenJackson1Deserializer() {
             super(OAuth2AccessToken.class);
         }
 
         @Override
-        public OAuth2AccessToken deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+        public OAuth2AccessToken deserialize(org.codehaus.jackson.JsonParser jp, org.codehaus.jackson.map.DeserializationContext ctxt) throws IOException {
 
             String idTokenValue = null;
             String tokenValue = null;
@@ -117,7 +111,7 @@ public class OpenIdToken extends DefaultOAuth2AccessToken {
             Map<String, Object> additionalInformation = new LinkedHashMap<String, Object>();
 
             // TODO What should occur if a parameter exists twice
-            while (jp.nextToken() != JsonToken.END_OBJECT) {
+            while (jp.nextToken() != org.codehaus.jackson.JsonToken.END_OBJECT) {
                 String name = jp.getCurrentName();
                 jp.nextToken();
                 if (OAuth2AccessToken.ACCESS_TOKEN.equals(name)) {
@@ -131,7 +125,110 @@ public class OpenIdToken extends DefaultOAuth2AccessToken {
                 } else if (OAuth2AccessToken.EXPIRES_IN.equals(name)) {
                     try {
                         expiresIn = jp.getLongValue();
-                    } catch (JsonParseException e) {
+                    } catch (org.codehaus.jackson.JsonParseException e) {
+                        expiresIn = Long.valueOf(jp.getText());
+                    }
+                } else if (OAuth2AccessToken.SCOPE.equals(name)) {
+                    String text = jp.getText();
+                    scope = OAuth2Utils.parseParameterList(text);
+                } else {
+                    additionalInformation.put(name, jp.readValueAs(Object.class));
+                }
+            }
+
+            // TODO What should occur if a required parameter (tokenValue or tokenType) is missing?
+
+            OpenIdToken accessToken = new OpenIdToken(tokenValue);
+            accessToken.setIdTokenValue(idTokenValue);
+            accessToken.setTokenType(tokenType);
+            if (expiresIn != null) {
+                accessToken.setExpiration(new Date(System.currentTimeMillis() + (expiresIn * 1000)));
+            }
+            if (refreshToken != null) {
+                accessToken.setRefreshToken(new DefaultOAuth2RefreshToken(refreshToken));
+            }
+            accessToken.setScope(scope);
+            accessToken.setAdditionalInformation(additionalInformation);
+
+            return accessToken;
+        }
+    }
+
+    public static final class OpenIdTokenJackson2Serializer extends com.fasterxml.jackson.databind.ser.std.StdSerializer<OAuth2AccessToken> {
+
+        public OpenIdTokenJackson2Serializer() {
+            super(OAuth2AccessToken.class);
+        }
+
+        @Override
+        public void serialize(OAuth2AccessToken token, com.fasterxml.jackson.core.JsonGenerator jgen, com.fasterxml.jackson.databind.SerializerProvider provider) throws IOException {
+
+            jgen.writeStartObject();
+            jgen.writeStringField(OAuth2AccessToken.ACCESS_TOKEN, token.getValue());
+            jgen.writeStringField(OAuth2AccessToken.TOKEN_TYPE, token.getTokenType());
+            if (token instanceof OpenIdToken && ((OpenIdToken)token).getIdTokenValue()!=null) {
+                jgen.writeStringField(ID_TOKEN, ((OpenIdToken) token).getIdTokenValue());
+            }
+            OAuth2RefreshToken refreshToken = token.getRefreshToken();
+            if (refreshToken != null) {
+                jgen.writeStringField(OAuth2AccessToken.REFRESH_TOKEN, refreshToken.getValue());
+            }
+            Date expiration = token.getExpiration();
+            if (expiration != null) {
+                long now = System.currentTimeMillis();
+                jgen.writeNumberField(OAuth2AccessToken.EXPIRES_IN, (expiration.getTime() - now) / 1000);
+            }
+            Set<String> scope = token.getScope();
+            if (scope != null && !scope.isEmpty()) {
+                StringBuffer scopes = new StringBuffer();
+                for (String s : scope) {
+                    Assert.hasLength(s, "Scopes cannot be null or empty. Got " + scope + "");
+                    scopes.append(s);
+                    scopes.append(" ");
+                }
+                jgen.writeStringField(OAuth2AccessToken.SCOPE, scopes.substring(0, scopes.length() - 1));
+            }
+            Map<String, Object> additionalInformation = token.getAdditionalInformation();
+            for (String key : additionalInformation.keySet()) {
+                jgen.writeObjectField(key, additionalInformation.get(key));
+            }
+            jgen.writeEndObject();
+        }
+    }
+
+    public final class OpenIdTokenJackson2Deserializer extends com.fasterxml.jackson.databind.deser.std.StdDeserializer<OAuth2AccessToken> {
+
+        public OpenIdTokenJackson2Deserializer() {
+            super(OAuth2AccessToken.class);
+        }
+
+        @Override
+        public OAuth2AccessToken deserialize(com.fasterxml.jackson.core.JsonParser jp, com.fasterxml.jackson.databind.DeserializationContext ctxt) throws IOException {
+
+            String idTokenValue = null;
+            String tokenValue = null;
+            String tokenType = null;
+            String refreshToken = null;
+            Long expiresIn = null;
+            Set<String> scope = null;
+            Map<String, Object> additionalInformation = new LinkedHashMap<String, Object>();
+
+            // TODO What should occur if a parameter exists twice
+            while (jp.nextToken() != com.fasterxml.jackson.core.JsonToken.END_OBJECT) {
+                String name = jp.getCurrentName();
+                jp.nextToken();
+                if (OAuth2AccessToken.ACCESS_TOKEN.equals(name)) {
+                    tokenValue = jp.getText();
+                } else if (ID_TOKEN.equals(name)) {
+                    idTokenValue = jp.getText();
+                } else if (OAuth2AccessToken.TOKEN_TYPE.equals(name)) {
+                    tokenType = jp.getText();
+                } else if (OAuth2AccessToken.REFRESH_TOKEN.equals(name)) {
+                    refreshToken = jp.getText();
+                } else if (OAuth2AccessToken.EXPIRES_IN.equals(name)) {
+                    try {
+                        expiresIn = jp.getLongValue();
+                    } catch (com.fasterxml.jackson.core.JsonParseException e) {
                         expiresIn = Long.valueOf(jp.getText());
                     }
                 } else if (OAuth2AccessToken.SCOPE.equals(name)) {

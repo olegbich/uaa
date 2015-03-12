@@ -1,7 +1,6 @@
 package org.cloudfoundry.identity.uaa.login;
 
 import org.cloudfoundry.identity.uaa.scim.ScimUser;
-import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.io.IOException;
 
@@ -15,19 +14,24 @@ public interface AccountCreationService {
     ScimUser createUser(String username, String password);
 
     public static class ExistingUserResponse {
-        @JsonProperty
+        @org.codehaus.jackson.annotate.JsonProperty
+        @com.fasterxml.jackson.annotation.JsonProperty
         private String error;
 
-        @JsonProperty
+        @org.codehaus.jackson.annotate.JsonProperty
+        @com.fasterxml.jackson.annotation.JsonProperty
         private String message;
 
-        @JsonProperty("user_id")
+        @org.codehaus.jackson.annotate.JsonProperty("user_id")
+        @com.fasterxml.jackson.annotation.JsonProperty("user_id")
         private String userId;
 
-        @JsonProperty
+        @org.codehaus.jackson.annotate.JsonProperty
+        @com.fasterxml.jackson.annotation.JsonProperty
         private Boolean verified;
 
-        @JsonProperty
+        @org.codehaus.jackson.annotate.JsonProperty
+        @com.fasterxml.jackson.annotation.JsonProperty
         private Boolean active;
 
         public String getError() {
@@ -72,14 +76,17 @@ public interface AccountCreationService {
     }
 
     public static class AccountCreationResponse {
-        @JsonProperty("user_id")
+        @org.codehaus.jackson.annotate.JsonProperty("user_id")
+        @com.fasterxml.jackson.annotation.JsonProperty("user_id")
         private String userId;
         private String username;
         private String email;
-        @JsonProperty("redirect_location")
+        @org.codehaus.jackson.annotate.JsonProperty("redirect_location")
+        @com.fasterxml.jackson.annotation.JsonProperty("redirect_location")
         private String redirectLocation;
 
-        public AccountCreationResponse() {}
+        public AccountCreationResponse() {
+        }
 
         public AccountCreationResponse(String userId, String username, String email, String redirectLocation) {
             this.userId = userId;

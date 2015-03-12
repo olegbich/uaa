@@ -22,7 +22,6 @@ import org.cloudfoundry.identity.uaa.scim.ScimUser;
 import org.cloudfoundry.identity.uaa.scim.ScimUserProvisioning;
 import org.cloudfoundry.identity.uaa.scim.exception.ScimResourceNotFoundException;
 import org.cloudfoundry.identity.uaa.user.UaaUser;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
@@ -178,16 +177,20 @@ public class PasswordResetEndpoints implements ApplicationEventPublisherAware {
     }
 
     public static class PasswordChange {
-        @JsonProperty("username")
+        @org.codehaus.jackson.annotate.JsonProperty("username")
+        @com.fasterxml.jackson.annotation.JsonProperty("username")
         private String username;
 
-        @JsonProperty("code")
+        @org.codehaus.jackson.annotate.JsonProperty("code")
+        @com.fasterxml.jackson.annotation.JsonProperty("code")
         private String code;
 
-        @JsonProperty("current_password")
+        @org.codehaus.jackson.annotate.JsonProperty("current_password")
+        @com.fasterxml.jackson.annotation.JsonProperty("current_password")
         private String currentPassword;
 
-        @JsonProperty("new_password")
+        @org.codehaus.jackson.annotate.JsonProperty("new_password")
+        @com.fasterxml.jackson.annotation.JsonProperty("new_password")
         private String newPassword;
 
         public String getUsername() {
